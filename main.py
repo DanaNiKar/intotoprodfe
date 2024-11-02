@@ -1,5 +1,7 @@
 from datetime import datetime
 from typing import Dict, List
+import argparse
+
 
 # Функция для вычисления оценки
 def deadline_score(pass_date: str, deadline_date: str) -> int:
@@ -18,6 +20,7 @@ def deadline_score(pass_date: str, deadline_date: str) -> int:
     score = max(5 - delay_weeks, 0)
     return score
 
+
 # Функция для списка опоздавших студентов
 def late_list(grades: Dict[str, str], deadline_date: str) -> List[str]:
     late_students = []
@@ -33,6 +36,8 @@ def late_list(grades: Dict[str, str], deadline_date: str) -> List[str]:
 
 
 # Настройка командной строки
+parser = argparse.ArgumentParser(description="Программа для обработки дедлайнов и оценок студентов")
+subparsers = parser.add_subparsers(dest="command")
 
 # Основная функция
 def main():
@@ -40,3 +45,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
