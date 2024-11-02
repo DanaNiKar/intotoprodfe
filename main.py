@@ -57,6 +57,7 @@ score_parser.add_argument("--deadline", required=True, help="Дата дедла
 score_parser.add_argument("--student", required=True, help="Фамилия студента, для которого требуется узнать оценку.")
 score_parser.add_argument("--pass_date", required=True, help="Дата сдачи работы данного студента в формате DD.MM.YYYY")
 
+
 # Основная функция
 def main():
     while True:
@@ -118,6 +119,6 @@ def main():
             # Обработка завершения работы парсера аргументов, если команда некорректна
             print("Ошибка в вводе команды или аргументов. Проверьте ввод и попробуйте снова")
 
+
 if __name__ == "__main__":
     main()
-
