@@ -19,8 +19,18 @@ def deadline_score(pass_date: str, deadline_date: str) -> int:
     return score
 
 # Функция для списка опоздавших студентов
-def late_list():
-    pass
+def late_list(grades: Dict[str, str], deadline_date: str) -> List[str]:
+    late_students = []
+
+    for student, pass_date in grades.items():
+        try:
+            if deadline_score(pass_date, deadline_date) < 5:
+                late_students.append(student)
+        except ValueError:
+            print(f"Некорректный формат даты для студента {student}.")
+
+    return sorted(late_students)
+
 
 # Настройка командной строки
 
