@@ -59,7 +59,64 @@ score_parser.add_argument("--pass_date", required=True, help="Дата сдач�
 
 # Основная функция
 def main():
-    pass
+    while True:
+        user_input = input("Введите команду (или 'exit' для завершение): ").strip()
+
+        # Завершение программы по команде 'exit'
+        if user_input.lower() == 'exit':
+            print("Программа завершена")
+            break
+
+        # Разделение команды на аргументы
+        args = user_input.split()
+
+        try:
+            # Парсинг аргументов
+            parsed_args = parser.parse_args(args)
+
+            if parsed_args.command == "add":
+                grades = {}
+                for student_entry in parsed_args.students:
+                    try:
+                        student, pass_date = student_entry.split("=")
+                        grades[student.strip()] = pass_date.strip()
+                    except ValueError:
+                        print(f"Ошибка: некорректный формат ввода для '{student_entry}'."
+                              f"Ожитается 'Фамилия=дата'")
+                        continue
+
+                print("Данные успешно сохранены. Для анализа используйте команду 'late-list' или 'score'.")
+
+            elif parsed_args.command == "late-list":
+                grades = {}
+                for student_entry in parsed_args.students:
+                    try:
+                        student, pass_date = student_entry.split("=")
+                        grades[student.strip()] = pass_date.strip()
+                    except ValueError:
+                        print(f"Ошибка: некорректный формат ввода для '{student_entry}'. Ожидается 'Фамилия=дата'.")
+                        continue
+
+                late_students = late_list(grades, parsed_args.deadline)
+                if late_students:
+                    print("Список студентов, сдавших работу позже:")
+                    print("/n".join(late_students))
+                else:
+                    print("Все студенты сдали работу вовремя")
+
+            elif parsed_args.command == "score":
+                try:
+                    score = deadline_score(parsed_args.pass_date, parsed_args.deadlint)
+                    print(f"Оценка для студента {parsed_args.student}: {score}")
+                except ValueError as e:
+                    print(f"Ошибка: {e}")
+
+            else:
+                print("Неизвестная команда. Попробуйте снова")
+
+        except SystemExit:
+            # Обработка завершения работы парсера аргументов, если команда некорректна
+            print("Ошибка в вводе команды или аргументов. Проверьте ввод и попробуйте снова")
 
 if __name__ == "__main__":
     main()
